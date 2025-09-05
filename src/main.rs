@@ -25,6 +25,19 @@ fn main() {
    let m = Message::Write(String::from("helloo"));
    m.call();
    // we called the method Write, the method can use Self to access those
+    // next we will talk about option, its a enum defined by the standdar library, 
+    // The Option type encodes the very common scenario in which a value could be something or it could be nothing.
+    // this concept in terms of the type system means the compiler can check whether you have handled all the cases you should.
+    // Using option
+    let some_num = Some(5); // it is option <i32>
+    let some_char = Some('e'); // it is option<char>
+    let absent_num: Option<i32> = None; // assiging None to the absent_num
+    // if we create a variable of i32 and try to add it with the some_num, where we gave type of i32, we will get error
+    // because the type of some_num is not i32 but Option<i32> which is not same as just i32
+    // and in case of some_num, we have a possibility of "None" to occur, and complier doesnt like that possibiltiy, so you are stopped at the complie time itself
+    // so you have to convert Option<T> to just T 
+    // Now want a set of instructions to run if Some(T) is the variant and some different instruction to run for None as variant, for this we use match expression
+    
 
 }
 // Lets take an example, lets say, we listing out ips, they can either be v4 or v6, either one not both,
@@ -70,3 +83,11 @@ impl Message {
     }
 } // The body of the method would use self to get the value that we called the method on
 // self will be Message::Write(String::from("hello")), this will be the body of call
+//-------------------------------------------------------------------------------
+// Rust doesnt has the value null, below is a way how rust uses null with Option<T>
+// enum Option<T>{ // its preloaded no need to bring it in explictly
+//     /*<T> means that the Some variant of the Option enum can hold one piece of data of any type,
+//     and that each concrete type that gets used in place of T makes the overall Option<T> type a different type. */
+//     Some(T),
+//     None
+// } even if i comment this out, i will still be able to use Option<T>, because of its standard lib being aviable
