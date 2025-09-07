@@ -1,3 +1,4 @@
+#[allow(dead_code)] // can use this to remove the warings, but its not recommended unless you are teaching someone something
 fn main() {
     println!("Hello, world!");
     // Enums, they allow you to define a type by enumerating its possible variants.
@@ -8,8 +9,6 @@ fn main() {
     // we can call the function with either variants
     route(IpAdderkind::V4);
     route(IpAdderkind::V6);
-    
-    
     // we can create instances of this struct, and in place of IpAddrkind, we can have either one of its varints
     // let home = IpAddr{
     //     kind: IpAdderkind::V4,
@@ -73,6 +72,35 @@ fn main() {
     let sec_coin1 = Coin::Quarter(UsState::Alabama);
     let true_val1 = value_in_cents(sec_coin1);
     println!("The quatar: {:#?} cents", true_val1);
+    // Now lets try to use match to handle option<T>, dont forget, T here is just data type
+    /*We will create a function which takes input of type Option<i32> and returns the same,
+    since we are using it from preloaded module, we wont have to define it again.*/
+    fn plus_one(x: Option<i32>) -> Option<i32>{
+        match x{
+            None => None,
+            Some(i) => Some(i+1) 
+            // Some will take a value and add one to it
+        }
+    }
+    // lets start with creating a variable of type Option<i32>
+    let five = Some(5);
+    let six = plus_one(five); // in place of x we are sending five, which hold Some(5), 
+    // which will then go into the match and go to the some(i) arm, and then it becomes Some(6),
+    // which is then returned to var six
+    let none = plus_one(None);
+    // x will be None type and it will return None
+    println!("{:?}", none); // prints None
+    println!("{:?}", six); // prints some(6)
+    // not that in match the arm's patterns should cover all possibilities,
+    // this is called being exhaustive, which means we have to exhaust all possibilities 
+    //We can also have a default value similar, if all the above conditions didnt match, just run this for any other possible value
+    let dice_ = 9;
+    match dice_ {
+        3 => println!("Dont move"),
+        7 => println!("Role once more"),
+        other => println!("move {} steps", dice_), // takes care of any other condition thats left
+    }
+
 }
 // Lets take an example, lets say, we listing out ips, they can either be v4 or v6, either one not both,
     // we can create a enu for this
