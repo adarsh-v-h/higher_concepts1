@@ -36,9 +36,43 @@ fn main() {
     // because the type of some_num is not i32 but Option<i32> which is not same as just i32
     // and in case of some_num, we have a possibility of "None" to occur, and complier doesnt like that possibiltiy, so you are stopped at the complie time itself
     // so you have to convert Option<T> to just T 
-    // Now want a set of instructions to run if Some(T) is the variant and some different instruction to run for None as variant, for this we use match expression
+    // Now want a set of instructions to run if Some(T) is the variant and some different instruction to run for None as variant, for this we use match expression.
+    // We have a set coins, and we will use match to print out a certain set of code for a particaular coin
+    enum Coin { // to hold all the types of coin
+        Penny,
+        Nickel,
+        Dime,
+        Quarter(UsState)
+    }
     
+    fn value_in_cents(coin: Coin) ->u8{ // will take the variant of Coin
+        match coin{ // is checking of the variant in it, while the type of all the vairants is same, i.e Coin enum
+            Coin::Penny => 1, // this is an arm, sperated by an operator =>, the first part is pattern and the next is code to run if matched
+            Coin::Nickel =>{ // need to use {} for multiple statements
+                println!("Nickel coin not element, hahah"); // if matched, this is executed
+                5 // then returns this
+            },
+            Coin::Dime => 10,
+            Coin:: Quarter(state) =>{ //Matches the Quarter variant and extracts the attached UsState into the variable state.
+                println!("State quarter from {:?}", state); // :? to 
+                25
+                }
+        } // will return the value of that coin in cents
+    }
 
+    let sec_coin = Coin::Nickel; // a variant is stored in sec_Coin
+    let true_val = value_in_cents(sec_coin); // the retured value from fn is stored in this
+    println!("The value of the secret coin is: {} cents", true_val);
+    // note: match might look similar to if, but if needed a bool value but match can work with any type
+    // we can create an enum which can be valued in another enum
+    #[derive(Debug)] //  without this you couldnt use :? or :#? on this enum
+    enum UsState{
+        Alabama,
+        Alaska
+    }
+    let sec_coin1 = Coin::Quarter(UsState::Alabama);
+    let true_val1 = value_in_cents(sec_coin1);
+    println!("The quatar: {:#?} cents", true_val1);
 }
 // Lets take an example, lets say, we listing out ips, they can either be v4 or v6, either one not both,
     // we can create a enu for this
@@ -65,7 +99,7 @@ enum Message{
     Quit,
     Move {x: i32, y: i32},
     Write(String),
-    ChnageColor(i32, i32, i32), 
+    ChangeColor(i32, i32, i32), 
 }
 // to create the same with struct, we would have to do this
 struct QuitMessage; // unit struct
